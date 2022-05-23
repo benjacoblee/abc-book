@@ -1,58 +1,51 @@
+import { Box, Container } from "@chakra-ui/react";
 import React from "react";
-import logo from "./logo.svg";
-import { Counter } from "./features/counter/Counter";
-import "./App.css";
+import {
+    BrowserRouter,
+    Link as RouterLink,
+    Route,
+    Routes
+} from "react-router-dom";
+import { Link } from "@chakra-ui/react";
+import Users from "./pages/Users";
 
-function App() {
+const Home = () => (
+    <Container maxW="container.xl">
+        <Link as={RouterLink} to="/users">
+            User Management
+        </Link>
+    </Container>
+);
+
+const App = () => {
     return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <Counter />
-                <p>
-                    Edit <code>src/App.tsx</code> and save to reload.
-                </p>
-                <span>
-                    <span>Learn </span>
-                    <a
-                        className="App-link"
-                        href="https://reactjs.org/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        React
-                    </a>
-                    <span>, </span>
-                    <a
-                        className="App-link"
-                        href="https://redux.js.org/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Redux
-                    </a>
-                    <span>, </span>
-                    <a
-                        className="App-link"
-                        href="https://redux-toolkit.js.org/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Redux Toolkit
-                    </a>
-                    ,<span> and </span>
-                    <a
-                        className="App-link"
-                        href="https://react-redux.js.org/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        React Redux
-                    </a>
-                </span>
-            </header>
-        </div>
+        <BrowserRouter>
+            <Box
+                bg="tomato"
+                w="100%"
+                p={4}
+                color="white"
+                mb={4}
+                display="flex"
+                justifyContent="space-between"
+            >
+                <div>
+                    <strong>
+                        <Link as={RouterLink} to="/">
+                            Book Management System
+                        </Link>
+                    </strong>
+                </div>
+                <div>
+                    <strong>Login</strong>
+                </div>
+            </Box>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/users" element={<Users />} />
+            </Routes>
+        </BrowserRouter>
     );
-}
+};
 
 export default App;
