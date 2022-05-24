@@ -46,9 +46,14 @@ const usersSlice = createSlice({
             );
 
             return newState;
+        },
+        deleteUser(state, action) {
+            return [...state].filter((user) => {
+                return user.id !== action.payload.id;
+            });
         }
     }
 });
 
-export const { sortUsers, editUser } = usersSlice.actions;
+export const { sortUsers, editUser, deleteUser } = usersSlice.actions;
 export default usersSlice.reducer;
