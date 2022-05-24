@@ -3,7 +3,6 @@ import {
     Button,
     Container,
     List,
-    ListItem,
     Menu,
     MenuButton,
     MenuItem,
@@ -19,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import UserTableBody from "../components/UserTableBody";
 import { sortUsers } from "../features/users/usersSlice";
+import { renderPageNumbers } from "./utils/pagination";
 
 const Users = () => {
     const [page, setPage] = useState(1);
@@ -72,36 +72,6 @@ const Users = () => {
         ));
     };
 
-    const renderPageNumbers = () => {
-        const numberOfUsers = filter
-            ? users.filter((user) => user.role === filter).length
-            : users.length;
-        const pageNumbers = [];
-        for (let i = 1; i <= Math.ceil(numberOfUsers / usersPerPage); i++) {
-            pageNumbers.push(i);
-        }
-        return pageNumbers.map((number) => {
-            return (
-                <ListItem
-                    key={number}
-                    id={number.toString()}
-                    onClick={(e) => handlePageClick(e)}
-                    _hover={{
-                        cursor: "pointer"
-                    }}
-                    mr={4}
-                >
-                    {number === page ? (
-                        <strong onClick={(e) => e.stopPropagation()}>
-                            {number}
-                        </strong>
-                    ) : (
-                        number
-                    )}
-                </ListItem>
-            );
-        });
-    };
     return (
         <Container centerContent={true}>
             <TableContainer mb={4}>
@@ -170,7 +140,15 @@ const Users = () => {
                     </MenuList>
                 </Menu>
             </Container>
-            <List display="flex">{renderPageNumbers()}</List>
+            <List display="flex">
+                {renderPageNumbers({
+                    filter,
+                    users,
+                    usersPerPage,
+                    handlePageClick,
+                    page
+                })}
+            </List>
         </Container>
     );
 };
