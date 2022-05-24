@@ -24,7 +24,7 @@ const Login = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        auth.isLoggedIn && navigate("/");
+        auth.isLoggedIn && navigate(-1);
     }, [navigate, auth.isLoggedIn]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
