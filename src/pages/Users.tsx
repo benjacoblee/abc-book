@@ -23,14 +23,6 @@ import { Link as RouterLink } from "react-router-dom";
 import { RootState } from "../app/store";
 import { sortUsers } from "../features/users/usersSlice";
 
-type User = {
-    id: string;
-    name: string;
-    password: string;
-    role: string;
-    date_joined: Date;
-};
-
 const Users = () => {
     const [page, setPage] = useState(1);
     const [alphabetReversed, setIsAlphabetReversed] = useState(false);
