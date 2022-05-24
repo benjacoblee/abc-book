@@ -4,6 +4,7 @@ import { User } from "../../types/User";
 type InitialState = {
     errors: string[];
     isLoggedIn?: boolean;
+    user?: User;
 };
 
 const initialState: InitialState = {
@@ -33,7 +34,10 @@ const authSlice = createSlice({
                         errors: [...state.errors, "Wrong credentials"]
                     };
                 }
-                return { ...state, isLoggedIn: true };
+                const userCopy = { ...user };
+                delete userCopy.password;
+                sessionStorage.setItem("me", JSON.stringify({ ...userCopy }));
+                return { ...state, isLoggedIn: true, user };
             }
         },
         logout(state, _action) {

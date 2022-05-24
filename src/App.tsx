@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import { RootState } from "./app/store";
 import Navbar from "./components/Navbar";
+import EditUser from "./pages/EditUser";
 import Login from "./pages/Login";
 import User from "./pages/User";
 import Users from "./pages/Users";
@@ -31,6 +32,7 @@ const App = () => {
                 <Route path="/" element={<Home />} />
                 <Route path="/users" element={<Users />} />
                 <Route path="/users/:id" element={<User />} />
+                <Route path="/users/:id/edit" element={<EditUser />} />
                 <Route path="/login" element={<Login />} />
             </Routes>
         </BrowserRouter>
