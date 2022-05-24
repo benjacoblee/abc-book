@@ -2,7 +2,6 @@ import { ArrowDownIcon } from "@chakra-ui/icons";
 import {
     Button,
     Container,
-    Link,
     List,
     ListItem,
     Menu,
@@ -11,16 +10,14 @@ import {
     MenuList,
     Table,
     TableContainer,
-    Tbody,
-    Td,
     Th,
     Thead,
     Tr
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link as RouterLink } from "react-router-dom";
 import { RootState } from "../app/store";
+import UserTableBody from "../components/UserTableBody";
 import { sortUsers } from "../features/users/usersSlice";
 
 const Users = () => {
@@ -146,28 +143,9 @@ const Users = () => {
                             </Th>
                         </Tr>
                     </Thead>
-                    {currentUsers.map(({ id, name, role, date_joined }) => {
-                        return (
-                            <Tbody key={id}>
-                                <Tr>
-                                    <Td>
-                                        <Link
-                                            as={RouterLink}
-                                            to={`/users/${id}`}
-                                        >
-                                            {name}
-                                        </Link>
-                                    </Td>
-                                    <Td>{role}</Td>
-                                    <Td>
-                                        {new Date(
-                                            date_joined
-                                        ).toLocaleDateString("en-SG")}
-                                    </Td>
-                                </Tr>
-                            </Tbody>
-                        );
-                    })}
+                    {currentUsers.map((user) => (
+                        <UserTableBody key={user.id} {...user} isLink={true} />
+                    ))}
                 </Table>
             </TableContainer>
             <Container display="flex" justifyContent="flex-end">
