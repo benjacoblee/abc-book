@@ -1,10 +1,8 @@
-import { User } from "../types/User";
-
-export const generateRoles = (users: User[]) =>
-    users
-        .reduce((acc: string[], { role }) => {
-            if (!acc.includes(role)) {
-                acc.push(role);
+export const generateSelectItems = (selectItem: any[], objKey: string) =>
+    selectItem
+        .reduce((acc: string[], obj) => {
+            if (!acc.includes(obj[objKey])) {
+                acc.push(obj[objKey].toString());
             }
 
             return acc;
