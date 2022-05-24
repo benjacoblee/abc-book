@@ -120,8 +120,8 @@ const users = [
     },
     {
         id: "7c3c79e8-c1e4-457a-8bcc-c721d24f34db",
-        name: "Stephan",
-        password: "Et1Y8K",
+        name: "Ben",
+        password: "123",
         role: "admin",
         date_joined: "2000-01-13T12:33:38.714Z"
     },
@@ -135,7 +135,7 @@ const users = [
     {
         id: "64ea2418-0625-4a6a-ab87-45eb5cb33ce2",
         name: "Marlen",
-        password: "hH4UM1",
+        password: "123",
         role: "user",
         date_joined: "2008-06-19T17:02:37.579Z"
     }
