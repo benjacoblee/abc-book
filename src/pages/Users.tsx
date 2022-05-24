@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import UserTableBody from "../components/UserTableBody";
 import { sortUsers } from "../features/users/usersSlice";
+import { generateRoles } from "../utils/roles";
 import { renderPageNumbers } from "./utils/pagination";
 
 const Users = () => {
@@ -55,15 +56,7 @@ const Users = () => {
     };
 
     const renderRoles = () => {
-        const roles = users
-            .reduce((acc: string[], { role }) => {
-                if (!acc.includes(role)) {
-                    acc.push(role);
-                }
-
-                return acc;
-            }, [])
-            .sort();
+        const roles = generateRoles(users);
 
         return roles.map((role) => (
             <MenuItem key={role} value={role} onClick={handleFilterClick}>
