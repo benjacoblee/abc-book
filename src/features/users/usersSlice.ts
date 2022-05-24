@@ -1,7 +1,8 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import users from "../../app/data/users";
+import { User } from "../../types/User";
 
-const initialState = users;
+const initialState: User[] = users;
 
 const usersSlice = createSlice({
     name: "users",
@@ -10,7 +11,7 @@ const usersSlice = createSlice({
         sortUsers(state, action) {
             switch (action.payload.sortType) {
                 case "alphabetical": {
-                    const sorted = state.sort((a, b) => {
+                    const sorted = [...state].sort((a, b) => {
                         return a.name.localeCompare(b.name);
                     });
 
@@ -19,7 +20,7 @@ const usersSlice = createSlice({
                         : sorted;
                 }
                 case "date_joined": {
-                    const sorted = state.sort((a, b) => {
+                    const sorted = [...state].sort((a, b) => {
                         const date = new Date(a.date_joined).getTime();
                         const otherDate = new Date(b.date_joined).getTime();
                         return date - otherDate;
