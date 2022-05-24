@@ -33,9 +33,22 @@ const usersSlice = createSlice({
                 default:
                     return state;
             }
+        },
+        editUser(state, action) {
+            const newState = [...state].reduce(
+                (acc: User[], currVal, currIdx) => {
+                    if (currVal.id === action.payload.id) {
+                        acc[currIdx] = action.payload;
+                    }
+                    return acc;
+                },
+                state
+            );
+
+            return newState;
         }
     }
 });
 
-export const { sortUsers } = usersSlice.actions;
+export const { sortUsers, editUser } = usersSlice.actions;
 export default usersSlice.reducer;

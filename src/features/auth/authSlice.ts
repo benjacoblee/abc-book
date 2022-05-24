@@ -34,9 +34,9 @@ const authSlice = createSlice({
                         errors: [...state.errors, "Wrong credentials"]
                     };
                 }
-                const userCopy = { ...user };
-                delete userCopy.password;
-                sessionStorage.setItem("me", JSON.stringify({ ...userCopy }));
+                const newState = { ...user };
+                delete newState.password;
+                sessionStorage.setItem("me", JSON.stringify({ ...newState }));
                 return { ...state, isLoggedIn: true, user };
             }
         },

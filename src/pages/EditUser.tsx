@@ -10,28 +10,29 @@ import {
     RadioGroup
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { RootState } from "../app/store";
+import { editUser } from "../features/users/usersSlice";
 import { me } from "../utils/auth";
 import { generateRoles } from "../utils/roles";
 
 const EditUser = () => {
     const [show, setShow] = useState(false);
-    const [loginCredentials, setLoginCredentials] = useState({
-        username: "",
-        password: ""
-    });
-    const [role, setRole] = useState("");
-    const [isMe, setIsMe] = useState(false);
-
-    const params = useParams();
-    const { id } = params;
-
     const users = useSelector((state: RootState) => state.users);
     const auth = useSelector((state: RootState) => state.auth);
+    const params = useParams();
+    const { id } = params;
     const user = users.find((user) => user.id === id);
+    const [loginCredentials, setLoginCredentials] = useState({
+        username: user?.name,
+        password: user?.password
+    });
+    const [role, setRole] = useState(user?.role);
+    const [isMe, setIsMe] = useState(false);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+
     useEffect(() => {
         !user && navigate("/");
         !auth.isLoggedIn && navigate("/");
@@ -53,13 +54,26 @@ const EditUser = () => {
         setRole(e.target.value);
     };
 
+    const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
+        dispatch(
+            editUser({
+                ...user,
+                ...loginCredentials,
+                name: loginCredentials.username,
+                role
+            })
+        );
+
+        navigate(-1);
+    };
+
     return user ? (
         <Container centerContent={true} mt="24">
             <Input
                 placeholder="Username"
                 mb="4"
                 name="username"
-                defaultValue={user.name}
+                defaultValue={loginCredentials.username}
                 onChange={handleInputChange}
             />
             <InputGroup size="md">
@@ -69,7 +83,7 @@ const EditUser = () => {
                     type={show ? "text" : "password"}
                     placeholder="Enter password"
                     name="password"
-                    value={user.password}
+                    value={loginCredentials.password}
                     onChange={handleInputChange}
                 />
                 <InputRightElement width="4.5rem">
@@ -104,7 +118,15 @@ const EditUser = () => {
                 flexDir="column"
                 width="full"
             >
-                <Button width="full">Submit</Button>
+                <Button
+                    width="full"
+                    onClick={handleSubmit}
+                    disabled={
+                        !loginCredentials.username || !loginCredentials.password
+                    }
+                >
+                    Submit
+                </Button>
             </Box>
         </Container>
     ) : null;
