@@ -6,22 +6,22 @@ import {
     MenuButton,
     MenuItem,
     MenuList,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
     Table,
     TableContainer,
     Th,
     Thead,
     Tr,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
-    ModalCloseButton,
     useDisclosure
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { RootState } from "../app/store";
 import UserTableBody from "../components/UserTableBody";
 import { deleteUser } from "../features/users/usersSlice";
