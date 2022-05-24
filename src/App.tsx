@@ -10,6 +10,7 @@ import {
 import { RootState } from "./app/store";
 import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
+import User from "./pages/User";
 import Users from "./pages/Users";
 
 const Home = () => (
@@ -29,6 +30,7 @@ const App = () => {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/users" element={<Users />} />
+                <Route path="/users/:id" element={<User />} />
                 <Route path="/login" element={<Login />} />
             </Routes>
         </BrowserRouter>
