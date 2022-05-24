@@ -15,7 +15,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { RootState } from "../app/store";
 import { editUser } from "../features/users/usersSlice";
 import { me } from "../utils/auth";
-import { generateRoles } from "../utils/roles";
+import { generateSelectItems } from "../utils/roles";
 
 const EditUser = () => {
     const [show, setShow] = useState(false);
@@ -40,7 +40,9 @@ const EditUser = () => {
     }, [user, auth.isLoggedIn, navigate, auth.user]);
 
     const roles =
-        isMe || user?.role === "admin" ? ["admin"] : generateRoles(users);
+        isMe || user?.role === "admin"
+            ? ["admin"]
+            : generateSelectItems(users, "role");
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const target = e.target;
