@@ -1,4 +1,4 @@
-import { Container, Link } from "@chakra-ui/react";
+import { Container, Heading, Link } from "@chakra-ui/react";
 import React from "react";
 import { useSelector } from "react-redux";
 import {
@@ -16,9 +16,11 @@ import Users from "./pages/Users";
 
 const Home = () => (
     <Container maxW="container.xl">
-        <Link as={RouterLink} to="/users">
-            User Management
-        </Link>
+        <Heading size="lg" textDecor="underline">
+            <Link as={RouterLink} to="/users">
+                User Management
+            </Link>
+        </Heading>
     </Container>
 );
 
