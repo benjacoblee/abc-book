@@ -18,8 +18,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import UserTableBody from "../components/UserTableBody";
 import { sortUsers } from "../features/users/usersSlice";
-import { generateRoles } from "../utils/roles";
-import { renderPageNumbers } from "./utils/pagination";
+import { generateSelectItems } from "../utils/roles";
+import { renderItemPageNumbers } from "./utils/pagination";
 
 const Users = () => {
     const [page, setPage] = useState(1);
@@ -56,7 +56,7 @@ const Users = () => {
     };
 
     const renderRoles = () => {
-        const roles = generateRoles(users);
+        const roles = generateSelectItems(users, "role");
 
         return roles.map((role) => (
             <MenuItem key={role} value={role} onClick={handleFilterClick}>
@@ -134,12 +134,13 @@ const Users = () => {
                 </Menu>
             </Container>
             <List display="flex">
-                {renderPageNumbers({
+                {renderItemPageNumbers({
                     filter,
-                    users,
-                    usersPerPage,
+                    items: users,
+                    itemsPerPage: usersPerPage,
                     handlePageClick,
-                    page
+                    page,
+                    objKey: "role"
                 })}
             </List>
         </Container>

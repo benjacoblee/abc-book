@@ -1,19 +1,23 @@
 import { ListItem } from "@chakra-ui/react";
-import { User } from "../../types/User";
 
-export const renderPageNumbers = (options: {
-    filter: string | null;
-    users: User[];
-    usersPerPage: number;
+export const renderItemPageNumbers = (options: {
+    filter: any;
+    items: any[];
+    itemsPerPage: number;
     handlePageClick: (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => void;
     page: number;
+    objKey: string;
 }) => {
-    const { filter, users, usersPerPage, handlePageClick, page } = options;
-    const numberOfUsers = filter
-        ? users.filter((user) => user.role === filter).length
-        : users.length;
+    const { filter, items, itemsPerPage, handlePageClick, page, objKey } =
+        options;
+
+    const numberOfItems =
+        filter !== null
+            ? items.filter((item) => item[objKey] === filter).length
+            : items.length;
+
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(numberOfUsers / usersPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(numberOfItems / itemsPerPage); i++) {
         pageNumbers.push(i);
     }
     return pageNumbers.map((number) => {
