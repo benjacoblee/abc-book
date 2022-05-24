@@ -18,7 +18,7 @@ const BookTableBody = ({
             <Tr>
                 <Td fontWeight="semibold">
                     {isLink ? (
-                        <Link as={RouterLink} to={`/users/${id}`}>
+                        <Link as={RouterLink} to={`/books/${id}`}>
                             {title}
                         </Link>
                     ) : (
