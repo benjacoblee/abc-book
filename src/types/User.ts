@@ -3,5 +3,5 @@ export type User = {
     name: string;
     password: string;
     role: string;
-    date_joined: Date;
+    date_joined: string;
 };
