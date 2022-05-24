@@ -1,12 +1,15 @@
-import { Box, Container } from "@chakra-ui/react";
+import { Container, Link } from "@chakra-ui/react";
 import React from "react";
+import { useSelector } from "react-redux";
 import {
     BrowserRouter,
     Link as RouterLink,
     Route,
     Routes
 } from "react-router-dom";
-import { Link } from "@chakra-ui/react";
+import { RootState } from "./app/store";
+import Navbar from "./components/Navbar";
+import Login from "./pages/Login";
 import Users from "./pages/Users";
 
 const Home = () => (
@@ -18,31 +21,15 @@ const Home = () => (
 );
 
 const App = () => {
+    const auth = useSelector((state: RootState) => state.auth);
+
     return (
         <BrowserRouter>
-            <Box
-                bg="tomato"
-                w="100%"
-                p={4}
-                color="white"
-                mb={4}
-                display="flex"
-                justifyContent="space-between"
-            >
-                <div>
-                    <strong>
-                        <Link as={RouterLink} to="/">
-                            Book Management System
-                        </Link>
-                    </strong>
-                </div>
-                <div>
-                    <strong>Login</strong>
-                </div>
-            </Box>
+            <Navbar isLoggedIn={auth.isLoggedIn} />
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/users" element={<Users />} />
+                <Route path="/login" element={<Login />} />
             </Routes>
         </BrowserRouter>
     );
