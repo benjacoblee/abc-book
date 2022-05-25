@@ -76,7 +76,7 @@ const EditUser = () => {
                 placeholder="Username"
                 mb="4"
                 name="username"
-                defaultValue={loginCredentials.username}
+                value={loginCredentials.username}
                 onChange={handleInputChange}
             />
             <InputGroup size="md">
