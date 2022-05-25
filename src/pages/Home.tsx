@@ -1,6 +1,4 @@
 import { Box, Container, Heading, SlideFade } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import {
     Bar,
     BarChart,
@@ -14,26 +12,14 @@ import {
 } from "recharts";
 import { store } from "../app/store";
 import {
-    fetchNormalizedBooksByGenre,
-    fetchNormalizedBooksByYearPublished
-} from "../features/books/booksSlice";
+    normalizeBooksByGenre,
+    normalizeBooksByYearPublished
+} from "../utils/book";
 
 const Home = () => {
-    const [booksByGenre, setBooksByGenre] = useState<any[]>([]);
-    const [booksByYear, setBooksByYear] = useState<any[]>([]);
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(fetchNormalizedBooksByGenre({}));
-        const normalizedBooks = store.getState().books;
-        setBooksByGenre(normalizedBooks);
-    }, [dispatch]);
-
-    useEffect(() => {
-        dispatch(fetchNormalizedBooksByYearPublished({}));
-        const normalizedBooks = store.getState().books;
-        setBooksByYear(normalizedBooks);
-    }, [dispatch]);
+    const books = store.getState().books;
+    const booksByGenre = normalizeBooksByGenre(books);
+    const booksByYearPublished = normalizeBooksByYearPublished(books);
 
     const renderBarChart = () => {
         return (
@@ -53,7 +39,7 @@ const Home = () => {
             <LineChart
                 width={730}
                 height={250}
-                data={booksByYear}
+                data={booksByYearPublished}
                 margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
             >
                 <CartesianGrid strokeDasharray="3 3" />
