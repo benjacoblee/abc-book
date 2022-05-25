@@ -26,13 +26,12 @@ const Books = () => {
     const [dateJoinedReversed, setIsDateJoinedReversed] = useState(false);
     const [filter, setFilter] = useState<null | boolean>(null);
     const dispatch = useDispatch();
-    dispatch(sortBooks({}));
-    const books = useSelector((state: RootState) => state.books);
 
+    const books = useSelector((state: RootState) => state.books);
     const booksPerPage = 10;
     const indexOfLastBook = page * booksPerPage;
     const indexOfFirstBook = indexOfLastBook - booksPerPage;
-    const currentbooks =
+    const currentBooks =
         filter !== null
             ? books
                   .filter((book) => book.available === Boolean(filter))
@@ -116,7 +115,7 @@ const Books = () => {
                             <Th>Availability</Th>
                         </Tr>
                     </Thead>
-                    {currentbooks.map((book) => (
+                    {currentBooks.map((book) => (
                         <BookTableBody key={book.id} {...book} isLink={true} />
                     ))}
                 </Table>
