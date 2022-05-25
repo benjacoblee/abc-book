@@ -25,6 +25,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { RootState } from "../app/store";
 import UserTableBody from "../components/UserTableBody";
 import { deleteUser } from "../features/users/usersSlice";
+import { hasUserAccess } from "../utils/auth";
 
 const User = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -52,7 +53,7 @@ const User = () => {
                 </Table>
             </TableContainer>
             <Container display="flex" justifyContent="flex-end">
-                {auth.isLoggedIn && (
+                {auth.isLoggedIn && hasUserAccess(auth?.user?.role) && (
                     <Menu>
                         <MenuButton
                             as={Button}
@@ -89,7 +90,8 @@ const User = () => {
                             colorScheme="red"
                             mr={3}
                             onClick={() => {
-                                dispatch(deleteUser({ id: user.id }));
+                                hasUserAccess(auth?.user?.role) &&
+                                    dispatch(deleteUser({ id: user.id }));
                                 navigate("/users");
                             }}
                         >

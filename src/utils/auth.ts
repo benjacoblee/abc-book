@@ -1,7 +1,6 @@
-export const me = (id: string | undefined) => {
-    const myDetails = sessionStorage.getItem("me");
-    if (myDetails) {
-        return id === JSON.parse(`${myDetails}`).id;
-    }
-    return false;
-};
+export const hasUserAccess = (role: string | undefined) => role === "admin";
+export const hasBookAccess = (role: string) =>
+    role === "admin" || role === "editor";
+
+export const me = (id: string | undefined, idToDiff: string | undefined) =>
+    id === idToDiff;

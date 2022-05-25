@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { RootState } from "../app/store";
 import { editUser } from "../features/users/usersSlice";
-import { me } from "../utils/auth";
+import { hasUserAccess, me } from "../utils/auth";
 import { generateSelectItems } from "../utils/roles";
 
 const EditUser = () => {
@@ -36,8 +36,8 @@ const EditUser = () => {
     useEffect(() => {
         !user && navigate("/");
         !auth.isLoggedIn && navigate("/");
-        user && setIsMe(me(user.id));
-    }, [user, auth.isLoggedIn, navigate, auth.user]);
+        user && setIsMe(me(id, auth?.user?.id));
+    }, [user, auth.isLoggedIn, navigate, auth.user, id]);
 
     const roles =
         isMe || user?.role === "admin"
@@ -57,14 +57,15 @@ const EditUser = () => {
     };
 
     const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
-        dispatch(
-            editUser({
-                ...user,
-                ...loginCredentials,
-                name: loginCredentials.username,
-                role
-            })
-        );
+        hasUserAccess(auth?.user?.role) &&
+            dispatch(
+                editUser({
+                    ...user,
+                    ...loginCredentials,
+                    name: loginCredentials.username,
+                    role
+                })
+            );
 
         navigate(-1);
     };

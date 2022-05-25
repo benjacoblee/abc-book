@@ -34,9 +34,7 @@ const authSlice = createSlice({
                         errors: [...state.errors, "Wrong credentials"]
                     };
                 }
-                const newState = { ...user };
-                delete newState.password;
-                sessionStorage.setItem("me", JSON.stringify({ ...newState }));
+
                 return { ...state, isLoggedIn: true, user };
             }
         },

@@ -134,7 +134,7 @@ const users = [
     },
     {
         id: "64ea2418-0625-4a6a-ab87-45eb5cb33ce2",
-        name: "Marlen",
+        name: "Dave",
         password: "123",
         role: "user",
         date_joined: "2008-06-19T17:02:37.579Z"
