@@ -84,7 +84,6 @@ const User = () => {
                         <strong>{user.name}</strong>? This action is
                         irreversible!
                     </ModalBody>
-
                     <ModalFooter>
                         <Button
                             colorScheme="red"
