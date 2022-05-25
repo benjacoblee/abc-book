@@ -1,4 +1,5 @@
-import { Box, Container, Heading, Link } from "@chakra-ui/react";
+import { SearchIcon } from "@chakra-ui/icons";
+import { Link, Tab, TabList, Tabs } from "@chakra-ui/react";
 import React from "react";
 import { useSelector } from "react-redux";
 import {
@@ -11,26 +12,10 @@ import { RootState } from "./app/store";
 import Navbar from "./components/Navbar";
 import Books from "./pages/Books";
 import EditUser from "./pages/EditUser";
+import Home from "./pages/Home";
 import Login from "./pages/Login";
 import User from "./pages/User";
 import Users from "./pages/Users";
-
-const Home = () => (
-    <Container maxW="container.xl">
-        <Heading size="lg" textDecor="underline">
-            <Box>
-                <Link as={RouterLink} to="/users">
-                    User Management
-                </Link>
-            </Box>
-            <Box>
-                <Link as={RouterLink} to="/books">
-                    Book Management
-                </Link>
-            </Box>
-        </Heading>
-    </Container>
-);
 
 const App = () => {
     const auth = useSelector((state: RootState) => state.auth);
@@ -38,6 +23,28 @@ const App = () => {
     return (
         <BrowserRouter>
             <Navbar isLoggedIn={auth.isLoggedIn} />
+            <Tabs variant="unstyled" mb="4" boxShadow="md">
+                <TabList pb="2">
+                    <Link as={RouterLink} to="/">
+                        <Tab
+                            aria-selected={window.location.pathname === "/"}
+                            fontWeight="semibold"
+                        >
+                            Home
+                        </Tab>
+                    </Link>
+                    <Link as={RouterLink} to="/users">
+                        <Tab fontWeight="semibold">
+                            <SearchIcon mr="2" fontSize="md" /> User Management
+                        </Tab>
+                    </Link>{" "}
+                    <Link as={RouterLink} to="/books">
+                        <Tab fontWeight="semibold">
+                            <SearchIcon mr="2" fontSize="md" /> Book Management
+                        </Tab>
+                    </Link>
+                </TabList>
+            </Tabs>
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/users" element={<Users />} />
