@@ -17,7 +17,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import BookTableBody from "../components/BookTableBody";
-import { sortbooks } from "../features/books/booksSlice";
+import { sortBooks } from "../features/books/booksSlice";
 import { renderItemPageNumbers } from "./utils/pagination";
 
 const Books = () => {
@@ -25,8 +25,9 @@ const Books = () => {
     const [alphabetReversed, setIsAlphabetReversed] = useState(false);
     const [dateJoinedReversed, setIsDateJoinedReversed] = useState(false);
     const [filter, setFilter] = useState<null | boolean>(null);
-    const books = useSelector((state: RootState) => state.books);
     const dispatch = useDispatch();
+    dispatch(sortBooks({}));
+    const books = useSelector((state: RootState) => state.books);
 
     const booksPerPage = 10;
     const indexOfLastBook = page * booksPerPage;
@@ -40,7 +41,7 @@ const Books = () => {
 
     const handleSortClick = (sortType: string, isReversed: boolean) => {
         setPage(1);
-        dispatch(sortbooks({ sortType, isReversed }));
+        dispatch(sortBooks({ sortType, isReversed }));
     };
 
     const handlePageClick = (
