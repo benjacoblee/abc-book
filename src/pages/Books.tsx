@@ -74,7 +74,7 @@ const Books = () => {
     };
 
     return (
-        <Container maxW="-moz-fit-content">
+        <Container maxW="fit-content">
             <TableContainer mb={4}>
                 <Table variant="simple">
                     <Thead>
