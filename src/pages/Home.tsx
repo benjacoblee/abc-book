@@ -54,7 +54,7 @@ const Home = () => {
 
     return (
         <Container maxW="container.xl" centerContent={true}>
-            <Heading mb="4">Statistics</Heading>
+            <Heading mb="4">Analytics</Heading>
             <SlideFade in={true} style={{ zIndex: 10 }}>
                 <Box mb="4" rounded="md">
                     {renderBarChart()}
