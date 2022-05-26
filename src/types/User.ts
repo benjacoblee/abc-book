@@ -4,4 +4,5 @@ export type User = {
     password: string;
     role: string;
     date_joined: string;
+    books?: string[];
 };

@@ -10,8 +10,10 @@ import {
 } from "react-router-dom";
 import { RootState } from "./app/store";
 import Navbar from "./components/Navbar";
+import AddBook from "./pages/AddBook";
 import Book from "./pages/Book";
 import Books from "./pages/Books";
+import EditBook from "./pages/EditBook";
 import EditUser from "./pages/EditUser";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -53,6 +55,8 @@ const App = () => {
                 <Route path="/users/:id/edit" element={<EditUser />} />
                 <Route path="/books" element={<Books />} />
                 <Route path="/books/:id" element={<Book />} />
+                <Route path="/books/new" element={<AddBook />} />
+                <Route path="/books/:id/edit" element={<EditBook />} />
                 <Route path="/login" element={<Login />} />
             </Routes>
         </BrowserRouter>

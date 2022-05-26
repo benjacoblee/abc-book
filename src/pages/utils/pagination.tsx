@@ -1,7 +1,7 @@
 import { ListItem } from "@chakra-ui/react";
 
 export const renderItemPageNumbers = (options: {
-    filter: any;
+    filter: Boolean | null | string;
     items: any[];
     itemsPerPage: number;
     handlePageClick: (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => void;

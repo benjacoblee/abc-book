@@ -1,5 +1,5 @@
-export const generateSelectItems = (selectItem: any[], objKey: string) =>
-    selectItem
+export const generateSelectItems = (selectItem: any[], objKey: string) => {
+    return selectItem
         .reduce((acc: string[], obj) => {
             if (!acc.includes(obj[objKey])) {
                 acc.push(obj[objKey].toString());
@@ -8,3 +8,4 @@ export const generateSelectItems = (selectItem: any[], objKey: string) =>
             return acc;
         }, [])
         .sort();
+};

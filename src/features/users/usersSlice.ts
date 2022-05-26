@@ -51,9 +51,37 @@ const usersSlice = createSlice({
             return [...state].filter((user) => {
                 return user.id !== action.payload.id;
             });
+        },
+        addBookToLibrary(state, action) {
+            return [...state].reduce((acc, currVal, currIdx) => {
+                if (currVal.id === action.payload.userId) {
+                    if (acc[currIdx].books)
+                        acc[currIdx].books?.push(action.payload.bookId);
+                    else {
+                        acc[currIdx].books = [action.payload.bookId];
+                    }
+                }
+                return acc;
+            }, state);
+        },
+        removeBookFromLibrary(state, action) {
+            return [...state].reduce((acc, currVal, currIdx) => {
+                if (currVal.id === action.payload.userId) {
+                    acc[currIdx].books = acc[currIdx].books?.filter(
+                        (bookId) => bookId !== action.payload.bookId
+                    );
+                }
+                return acc;
+            }, state);
         }
     }
 });
 
-export const { sortUsers, editUser, deleteUser } = usersSlice.actions;
+export const {
+    sortUsers,
+    editUser,
+    deleteUser,
+    addBookToLibrary,
+    removeBookFromLibrary
+} = usersSlice.actions;
 export default usersSlice.reducer;

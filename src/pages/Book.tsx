@@ -1,4 +1,10 @@
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import {
+    ArrowBackIcon,
+    DeleteIcon,
+    EditIcon,
+    NotAllowedIcon,
+    PlusSquareIcon
+} from "@chakra-ui/icons";
 import {
     Box,
     Button,
@@ -25,7 +31,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { RootState } from "../app/store";
 import BookTableBody from "../components/BookTableBody";
-import { deleteBook } from "../features/books/booksSlice";
+import {
+    borrowBook,
+    deleteBook,
+    returnBook
+} from "../features/books/booksSlice";
+import {
+    addBookToLibrary,
+    removeBookFromLibrary
+} from "../features/users/usersSlice";
 import { hasBookAccess } from "../utils/auth";
 
 const Book = () => {
@@ -36,11 +50,33 @@ const Book = () => {
     const navigate = useNavigate();
 
     const books = useSelector((state: RootState) => state.books);
+    const users = useSelector((state: RootState) => state.users);
     const auth = useSelector((state: RootState) => state.auth);
+    const user = users.find((user) => user.id === auth?.user?.id);
     const book = books.find((book) => book.id === id);
+
+    const isBookInLibrary = () => {
+        return user?.books?.find((bookId) => bookId === id);
+    };
 
     return book ? (
         <Container maxW="fit-content">
+            <Box
+                _hover={{
+                    cursor: "pointer"
+                }}
+                textDecor="underline"
+                fontSize="sm"
+                fontWeight="semibold"
+                mb="4"
+                w="sm"
+                onClick={() => {
+                    navigate("/books");
+                }}
+                color="teal.400"
+            >
+                <ArrowBackIcon mr="2" /> Back to library
+            </Box>
             <TableContainer mb={4}>
                 <Table>
                     <Thead>
@@ -50,13 +86,14 @@ const Book = () => {
                             <Th>Author</Th>
                             <Th>Year Published</Th>
                             <Th>Availability</Th>
+                            <Th>Last Borrowed By</Th>
                         </Tr>
                     </Thead>
                     <BookTableBody {...book} isLink={false} />
                 </Table>
             </TableContainer>
             <Box display="flex" justifyContent="flex-end" mb="4">
-                {auth.isLoggedIn && hasBookAccess(auth?.user?.role) && (
+                {auth.isLoggedIn && (
                     <Menu>
                         <MenuButton
                             as={Button}
@@ -66,19 +103,64 @@ const Book = () => {
                             Actions
                         </MenuButton>
                         <MenuList>
-                            <Link to={`/books/${id}/add`}>
-                                <MenuItem>
-                                    <EditIcon mr="2" /> Add
+                            {auth.isLoggedIn &&
+                                hasBookAccess(auth?.user?.role) && (
+                                    <>
+                                        <Link to={`/books/${id}/edit`}>
+                                            <MenuItem>
+                                                <EditIcon mr="2" /> Edit
+                                            </MenuItem>
+                                        </Link>
+                                        {book.available && (
+                                            <MenuItem onClick={onOpen}>
+                                                <DeleteIcon mr="2" /> Delete
+                                            </MenuItem>
+                                        )}
+                                    </>
+                                )}
+                            {book.available && (
+                                <MenuItem
+                                    onClick={() => {
+                                        dispatch(borrowBook({ id }));
+                                        dispatch(
+                                            addBookToLibrary({
+                                                bookId: book.id,
+                                                userId: auth?.user?.id
+                                            })
+                                        );
+                                    }}
+                                >
+                                    <PlusSquareIcon mr="2" /> Borrow
                                 </MenuItem>
-                            </Link>
-                            <Link to={`/books/${id}/edit`}>
-                                <MenuItem>
-                                    <EditIcon mr="2" /> Edit
+                            )}
+                            {!book.available && isBookInLibrary() && (
+                                <MenuItem
+                                    onClick={() => {
+                                        dispatch(
+                                            removeBookFromLibrary({
+                                                bookId: book.id,
+                                                userId: auth?.user?.id
+                                            })
+                                        );
+                                        dispatch(
+                                            returnBook({
+                                                id,
+                                                lastBorrowedBy: auth?.user?.name
+                                            })
+                                        );
+                                    }}
+                                >
+                                    <PlusSquareIcon mr="2" /> Return
                                 </MenuItem>
-                            </Link>
-                            <MenuItem onClick={onOpen}>
-                                <DeleteIcon mr="2" /> Delete
-                            </MenuItem>
+                            )}
+                            {!book.available &&
+                            !hasBookAccess(auth?.user?.role) &&
+                            !isBookInLibrary() ? (
+                                <MenuItem isDisabled={true}>
+                                    <NotAllowedIcon mr="2" />
+                                    None
+                                </MenuItem>
+                            ) : null}
                         </MenuList>
                     </Menu>
                 )}
@@ -98,10 +180,10 @@ const Book = () => {
                     </ModalBody>
                     <ModalFooter>
                         <Button
-                            colorScheme="red"
+                            colorScheme="teal"
                             mr={3}
                             onClick={() => {
-                                dispatch(deleteBook({ id: book.id }));
+                                dispatch(deleteBook({ id }));
                                 navigate("/books");
                             }}
                         >

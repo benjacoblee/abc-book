@@ -1,7 +1,9 @@
-import { ArrowDownIcon } from "@chakra-ui/icons";
+import { ArrowBackIcon, ArrowDownIcon } from "@chakra-ui/icons";
 import {
+    Box,
     Button,
     Container,
+    Link,
     List,
     Menu,
     MenuButton,
@@ -15,9 +17,11 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link as NavLink, useNavigate } from "react-router-dom";
 import { RootState } from "../app/store";
 import BookTableBody from "../components/BookTableBody";
 import { sortBooks } from "../features/books/booksSlice";
+import { hasBookAccess } from "../utils/auth";
 import { renderItemPageNumbers } from "./utils/pagination";
 
 const Books = () => {
@@ -26,8 +30,10 @@ const Books = () => {
     const [dateJoinedReversed, setIsDateJoinedReversed] = useState(false);
     const [filter, setFilter] = useState<null | boolean>(null);
     const dispatch = useDispatch();
-
+    const navigate = useNavigate();
+    const auth = useSelector((state: RootState) => state.auth);
     const books = useSelector((state: RootState) => state.books);
+
     const booksPerPage = 10;
     const indexOfLastBook = page * booksPerPage;
     const indexOfFirstBook = indexOfLastBook - booksPerPage;
@@ -50,9 +56,12 @@ const Books = () => {
         setPage(Number(target.getAttribute("id")));
     };
 
-    const handleFilterClick = (e: any) => {
+    const handleFilterClick = (
+        e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
         setPage(1);
-        const filter = e.target.getAttribute("value") === "true" ? true : false;
+        const target = e.target as HTMLButtonElement;
+        const filter = target.getAttribute("value") === "true" ? true : false;
         setFilter(filter);
     };
 
@@ -74,6 +83,22 @@ const Books = () => {
 
     return (
         <Container maxW="fit-content">
+            <Box
+                _hover={{
+                    cursor: "pointer"
+                }}
+                textDecor="underline"
+                fontSize="sm"
+                fontWeight="semibold"
+                mb="4"
+                w="sm"
+                onClick={() => {
+                    navigate("/");
+                }}
+                color="teal.400"
+            >
+                <ArrowBackIcon mr="2" /> Back to home
+            </Box>
             <TableContainer mb={4}>
                 <Table variant="simple">
                     <Thead>
@@ -113,6 +138,7 @@ const Books = () => {
                                 Year Published <ArrowDownIcon />
                             </Th>
                             <Th>Availability</Th>
+                            <Th>Last Borrowed By</Th>
                         </Tr>
                     </Thead>
                     {currentBooks.map((book) => (
@@ -133,6 +159,23 @@ const Books = () => {
                     >
                         Filter by availability
                     </MenuButton>
+                    {auth.isLoggedIn && hasBookAccess(auth?.user?.role) && (
+                        <Link
+                            as={NavLink}
+                            to={`/books/new`}
+                            _hover={{
+                                textDecoration: "none"
+                            }}
+                        >
+                            <MenuButton
+                                marginLeft="2"
+                                as={Button}
+                                colorScheme="teal"
+                            >
+                                Add Book
+                            </MenuButton>
+                        </Link>
+                    )}
                     <MenuList>
                         <MenuItem
                             onClick={() => {

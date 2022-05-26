@@ -1,12 +1,12 @@
-import { Book } from "../types/Book";
+import { Book, BookGenreCount, BookYearCount } from "../types/Book";
 
 export const normalizeBooksByGenre = (books: Book[]) => {
-    const checkIfGenreExists = (arr: any[], currGenre: string | undefined) =>
-        arr.findIndex(
-            (obj: { genre: string; count: number }) => obj.genre === currGenre
-        );
+    const checkIfGenreExists = (
+        arr: BookGenreCount[],
+        currGenre: string | undefined
+    ) => arr.findIndex((obj: BookGenreCount) => obj.genre === currGenre);
 
-    const newState = books.reduce((acc: any[], currVal: any) => {
+    const normalizedBooks = books.reduce((acc: any[], currVal: Book) => {
         const { genre } = currVal;
         const indexOfGenre = checkIfGenreExists(acc, genre || "Uncategorized");
         let genreObj = {};
@@ -22,17 +22,14 @@ export const normalizeBooksByGenre = (books: Book[]) => {
         return acc;
     }, []);
 
-    return newState;
+    return normalizedBooks;
 };
 
 export const normalizeBooksByYearPublished = (books: Book[]) => {
-    const checkIfYearExists = (arr: any[], currYear: number) =>
-        arr.findIndex(
-            (obj: { year_published: number; count: number }) =>
-                obj.year_published === currYear
-        );
+    const checkIfYearExists = (arr: BookYearCount[], currYear: number) =>
+        arr.findIndex((obj: BookYearCount) => obj.year_published === currYear);
 
-    const newState = books.reduce((acc: any[], currVal: any) => {
+    const normalizedBooks = books.reduce((acc: any[], currVal: Book) => {
         const { year_published } = currVal;
         const indexOfYear = checkIfYearExists(
             acc,
@@ -51,7 +48,7 @@ export const normalizeBooksByYearPublished = (books: Book[]) => {
         return acc;
     }, []);
 
-    return newState.sort(
+    return normalizedBooks.sort(
         (a: any, b: any) => a.year_published - b.year_published
     );
 };

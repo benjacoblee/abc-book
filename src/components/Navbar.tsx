@@ -11,7 +11,7 @@ const Navbar = (props: NavbarProps) => {
     const dispatch = useDispatch();
     return (
         <Box
-            bg="tomato"
+            bg="teal.300"
             w="100%"
             p={4}
             color="white"

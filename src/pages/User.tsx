@@ -1,5 +1,6 @@
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { ArrowBackIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import {
+    Box,
     Button,
     Container,
     Menu,
@@ -40,6 +41,22 @@ const User = () => {
 
     return user ? (
         <Container centerContent={true}>
+            <Box
+                _hover={{
+                    cursor: "pointer"
+                }}
+                textDecor="underline"
+                fontSize="sm"
+                fontWeight="semibold"
+                mb="4"
+                w="sm"
+                onClick={() => {
+                    navigate("/users");
+                }}
+                color="teal.400"
+            >
+                <ArrowBackIcon mr="2" /> Back to users
+            </Box>
             <TableContainer mb={4}>
                 <Table>
                     <Thead>
@@ -87,10 +104,11 @@ const User = () => {
                     </ModalBody>
                     <ModalFooter>
                         <Button
-                            colorScheme="red"
+                            colorScheme="teal"
                             mr={3}
                             onClick={() => {
-                                hasUserAccess(auth?.user?.role) &&
+                                auth.isLoggedIn &&
+                                    hasUserAccess(auth?.user?.role) &&
                                     dispatch(deleteUser({ id: user.id }));
                                 navigate("/users");
                             }}
