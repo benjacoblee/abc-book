@@ -2,6 +2,14 @@
 
 [View Live](https://abc-book-club.herokuapp.com/)
 
+## Credentials
+
+| username | password |   role |
+| -------- | :------: | -----: |
+| Ben      |   123    |  admin |
+| Dave     |   123    |   user |
+| Eldon    |   123    | editor |
+
 ## Store
 
 Redux store is set up with reference to the documentation. The store consists of the following reducers:
